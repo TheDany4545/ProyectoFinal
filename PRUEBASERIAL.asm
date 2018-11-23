@@ -11,7 +11,6 @@ GPR_VAR		UDATA
 CONT1 RES 1
 CONT2 RES 1
 W_TEMP RES 1 
-STATUS_TEMP RES 1 
 ;*******************************************************************************
 ; Reset Vector
 ;*******************************************************************************
@@ -20,22 +19,8 @@ RES_VECT  CODE    0x0000            ; processor reset vector
     GOTO    START                   ; go to beginning of program
 
 ;*******************************************************************************
-ISR       CODE    0x0004           ; interrupt vector location
-
- PUSH:
-  MOVWF W_TEMP
-  SWAPF STATUS_TEMP, W 
-  MOVWF STATUS_TEMP
-  
-  ISR: 
-  
-  POP:
-   SWAPF STATUS_TEMP, W 
-   MOVWF STATUS 
-   SWAPF W_TEMP, F
-   SWAPF W_TWMP, W 
-   RETFIE
-;    
+;ISR       CODE    0x0004           ; interrupt vector location
+;     RETFIE
 ;*******************************************************************************
 ; MAIN PROGRAM
 ;*******************************************************************************
@@ -45,8 +30,8 @@ MAIN_PROG CODE                      ; let linker place main program
 START
 ;*******************************************************************************
     CALL    CONFIG_IO  
-    CALL    CONFIG_TX_RX		; 10417hz 
-    CALL    CONFIG_RELOJ		; RELOJ INTERNO DE 500KHz
+    ;CALL    CONFIG_TX_RX		; 10417hz 
+    CALL    CONFIG_RELOJ		; RELOJ INTERNO DE 1 MHz
     CALL    CONFIG_ADC			; canal 0, fosc/8, adc on, justificado a la izquierda, Vref interno (0-5V)
     CALL    CONFIG_PWM
     BANKSEL PORTA
@@ -112,10 +97,14 @@ CONFIG_IO
     CLRF    TRISC
     CLRF    TRISD
     CLRF    TRISE
-    BANKSEL ANSEL
-    CLRF    ANSEL
-    CLRF    ANSELH
-    BSF	    ANSEL, 0	; ANS0 COMO ENTRADA ANALÃ?GICA
+    BANKSEL	ANSEL		
+    CLRF	   ANSEL		   
+    BSF	    ANSEL, 0	    
+    BSF	    ANSEL, 1	    
+    CLRF	   ANSELH
+    BSF	    ANSELH, 2	    
+    BSF	    ANSELH, 3	     
+
     BANKSEL PORTA
     CLRF    PORTA
     CLRF    PORTB
