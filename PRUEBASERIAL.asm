@@ -103,26 +103,17 @@ CONFIG_TX_RX
     BANKSEL PORTD
     CLRF    PORTD
     RETURN  
-
+;_________________________________________________________________________________________________________________
 CONFIG_IO
-    BANKSEL TRISA
-    CLRF    TRISA
-    BSF	    TRISA, RA0	; RA0 COMO ENTRADA
-    CLRF    TRISB
-    CLRF    TRISC
-    CLRF    TRISD
-    CLRF    TRISE
     BANKSEL ANSEL
-    CLRF    ANSEL
-    CLRF    ANSELH
-    BSF	    ANSEL, 0	; ANS0 COMO ENTRADA ANALÃ?GICA
-    BANKSEL PORTA
-    CLRF    PORTA
-    CLRF    PORTB
-    CLRF    PORTC
-    CLRF    PORTD
-    CLRF    VALOR_ADC
-    RETURN   
+    CLRF ANSEL
+    BSF ANSEL, 6
+    BSF ANSEL, 7
+    CLRF ANSELH
+    BSF ANSELH, 3
+    BSF ANSELH, 5
+    
+    BANKSEL 
     
 CONFIG_RELOJ
     BANKSEL OSCCON   
