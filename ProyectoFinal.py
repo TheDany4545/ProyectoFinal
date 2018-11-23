@@ -6,6 +6,7 @@ from Tkinter import *
 import serial
 import time
 import sys
+numero =0
 
 #Config interfaz
 ventana = Tk()
@@ -98,13 +99,15 @@ while 1:
     numero2 = ord(recibido1)
     print(numero2)
     while Rutina1==1:
-        global Rutina1
+        global Rutina1   
         f = open('rutina1.txt','a')
         leer1 = ser.read()
-        #leer2= ord(leer1)
-        f.writelines(leer1)
-        f.close()
-        ventana.update()
+        print leer1
+        if len(leer1) > 0:
+            numero = ord(leer1)
+            f.write(str(numero)+'\n')
+            f.close()
+            ventana.update()
     while Rutina1 == 0:
         print 'No hace nada la rutina1'
         time.sleep(0.5)
@@ -114,7 +117,7 @@ while 1:
         linea1 = texto1.readlines()
         for elemento in linea1:
             print elemento
-            envio = chr(elemento)
+            envio = elemento
             ser.write(envio)
             texto1.close()
         print'Reproduciendo grabacion 1'
@@ -125,10 +128,12 @@ while 1:
         global Rutina2
         f = open('rutina2.txt','a')
         leer1 = ser.read()
-        #leer2= ord(leer1)
-        f.writelines(leer1)
-        f.close()
-        ventana.update()
+        print leer1
+        if len(leer1) > 0:
+            numero = ord(leer1)
+            f.write(str(numero)+'\n')
+            f.close()
+            ventana.update()
     while Rutina2 == 0:
         print 'No hace nada la rutina2'
         time.sleep(0.5)
@@ -138,9 +143,9 @@ while 1:
         linea2 = texto2.readlines()
         for elemento in linea2:
             print elemento
-            envio2 = chr(elemento)
+            envio2 = elemento
             ser.write(envio2)
-            texto1.close()
+            texto2.close()
         print'Reproduciendo grabacion 2'
         ventana.update()
         
@@ -150,9 +155,11 @@ while 1:
         f = open('rutina3.txt','a')
         leer1 = ser.read()
         #leer2= ord(leer1)
-        f.writelines(leer1)
-        f.close()
-        ventana.update()
+        if len(leer1) > 0:
+            numero = ord(leer1)
+            f.write(str(numero)+'\n')
+            f.close()
+            ventana.update()
     while Rutina3 == 0:
         print 'No hace nada la rutina3'
         time.sleep(0.5)
@@ -162,9 +169,9 @@ while 1:
         linea3 = texto3.readlines()
         for elemento in linea3:
             print elemento
-            envio3 = chr(elemento)
+            envio3 = elemento
             ser.write(envio3)
-            texto1.close()
+            texto3.close()
         print'Reproduciendo grabacion 2'
         ventana.update()
     ventana.update()
