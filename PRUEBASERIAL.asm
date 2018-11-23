@@ -1,11 +1,11 @@
 #include "p16f887.inc"
 
 ; CONFIG1
-; __config 0xE0F4
- __CONFIG _CONFIG1, _FOSC_INTRC_NOCLKOUT & _WDTE_OFF & _PWRTE_OFF & _MCLRE_OFF & _CP_OFF & _CPD_OFF & _BOREN_OFF & _IESO_OFF & _FCMEN_OFF & _LVP_OFF
+; __config 0xFFF4
+ __CONFIG _CONFIG1, _FOSC_INTRC_NOCLKOUT & _WDTE_OFF & _PWRTE_OFF & _MCLRE_ON & _CP_OFF & _CPD_OFF & _BOREN_OFF & _IESO_OFF & _FCMEN_OFF & _LVP_OFF
 ; CONFIG2
 ; __config 0xFFFF
- __CONFIG _CONFIG2, _BOR4V_BOR40V & _WRT_OFF
+ __CONFIG _CONFIG2, _BOR4V_BOR40V & _WRT_OFF 
 ;*******************************************************************************
 GPR_VAR		UDATA
 W_TEMP		RES 1      ; w register for context saving (ACCESS)
