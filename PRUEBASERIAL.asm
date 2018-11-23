@@ -113,7 +113,40 @@ CONFIG_IO
     BSF ANSELH, 3
     BSF ANSELH, 5
     
-    BANKSEL 
+    BANKSEL TRSA
+    CLRF TRISA 
+    MOVLW B'00110000'
+    MOVWF TRISB 
+    CLRF TRISC 
+    MOVLW B'1111'
+    MOVWF TRISE 
+    
+    BANKSEL PORTA 
+    CLRF PORTA
+    CLRF PORTB
+    CLRF PORTC
+    CLRF PORTD
+    CLRF PORTE
+    
+   BANKSEL TRISA 
+   
+    BCF		OPTION_REG, T0CS    ;INTERNAL INSTRUCTION CYCLE CLOCK (FOSC/4)
+    BCF		OPTION_REG, PSA	    ;PRESCALER DEL TIMER0
+    BSF		OPTION_REG, PS2	    ;PRESCALER 1:256
+    BSF		OPTION_REG, PS1
+    BSF		OPTION_REG, PS0  
+    
+   BANKSEL ADCON0
+   
+    BCF		ADCON0, ADCS1
+    BCF		ADCON0, ADCS0	    ;FOSC/8 RELOJ TAD------------------------------AHORITA FOSC/2
+    BSF		ADCON0, CHS3
+    BCF		ADCON0, CHS2
+    BSF		ADCON0, CHS1
+    BSF		ADCON0, CHS0
+    
+ ------------------------------------------------------------------------------------------------------------------------------
+    
     
 CONFIG_RELOJ
     BANKSEL OSCCON   
