@@ -13,7 +13,7 @@
    DELAY1	  RES	    1
    DELAY2	  RES	    1
    VALOR_ADC	  RES	    1
-;*******************************************************************************
+
 ; Reset Vector
 ;*******************************************************************************
 
@@ -43,9 +43,9 @@ START
 ;*******************************************************************************
 LOOP:
     CALL    DELAY_50MS
-    BSF	    ADCON0, GO		    ; EMPIEZA LA CONVERSI”N
+    BSF	    ADCON0, GO		    ; EMPIEZA LA CONVERSI√ìN
 CHECK_AD:
-    BTFSC   ADCON0, GO	       	    ; revisa que terminÛ la conversiÛn
+    BTFSC   ADCON0, GO	       	    ; revisa que termin√≥ la conversi√≥n
     GOTO    $-1
     BCF	    PIR1, ADIF		    ; borramos la bandera del adc			; mueve adresh al puerto b
     MOVFW   ADRESH
@@ -60,7 +60,7 @@ CHECK_RCIF:			    ; RECIBE EN RX y lo muestra en PORTD
     MOVWF   CCPR2L
     
 CHECK_TXIF: 
-    MOVFW   VALOR_ADC		    ; ENVÕA PORTB POR EL TX
+    MOVFW   VALOR_ADC		    ; ENV√çA PORTB POR EL TX
     MOVWF   TXREG
    
     BTFSS   PIR1, TXIF
@@ -97,7 +97,7 @@ CONFIG_IO
     BANKSEL ANSEL
     CLRF    ANSEL
     CLRF    ANSELH
-    BSF	    ANSEL, 0	; ANS0 COMO ENTRADA ANAL√?GICA
+    BSF	    ANSEL, 0	; ANS0 COMO ENTRADA ANAL√É?GICA
     BANKSEL PORTA
     CLRF    PORTA
     CLRF    PORTB
@@ -123,23 +123,23 @@ CONFIG_ADC
     BCF ADCON0, CHS1
     BCF ADCON0, CHS0	
     BANKSEL TRISA
-    BCF ADCON1, ADFM		; JUSTIFICACI”N A LA IZQUIERDA
+    BCF ADCON1, ADFM		; JUSTIFICACI√ìN A LA IZQUIERDA
     BCF ADCON1, VCFG1		; VSS COMO REFERENCIA VREF-
     BCF ADCON1, VCFG0		; VDD COMO REFERENCIA VREF+
     BANKSEL PORTA
-    BSF ADCON0, ADON		; ENCIENDO EL M”DULO ADC
+    BSF ADCON0, ADON		; ENCIENDO EL M√ìDULO ADC
     
     BANKSEL TRISA
     BSF	    TRISA, RA0		; RA0 COMO ENTRADA
     BANKSEL ANSEL
-    BSF	    ANSEL, 0		; ANS0 COMO ENTRADA ANAL”GICA
+    BSF	    ANSEL, 0		; ANS0 COMO ENTRADA ANAL√ìGICA
     RETURN
     
 CONFIG_PWM
     BANKSEL TRISC
     BSF	    TRISC, RC1		; ESTABLEZCO RC1 / CCP2 COMO ENTRADA		  (PASO#1)
     MOVLW   .120
-    MOVWF   PR2			; COLOCO EL VALOR DEL PERIODO DE MI SE√?AL 20mS   (PASO#2)
+    MOVWF   PR2			; COLOCO EL VALOR DEL PERIODO DE MI SE√É?AL 20mS   (PASO#2)
     
     BANKSEL PORTA
     BSF	    CCP2CON, CCP2M3
@@ -163,12 +163,12 @@ CONFIG_PWM
     BCF	    PIR1, TMR2IF
     
     BANKSEL TRISC
-    BCF	    TRISC, RC1		    ; RC1 / CCP2 SALIDA PWM			  (PASO#6 Habilitamos la salida del PWM espuÈs de que haya un nuevo ciclo empezado)
+    BCF	    TRISC, RC1		    ; RC1 / CCP2 SALIDA PWM			  (PASO#6 Habilitamos la salida del PWM espu√©s de que haya un nuevo ciclo empezado)
     RETURN
     
  CONFIG_TX_RX
     BANKSEL TXSTA
-    BCF	    TXSTA, SYNC		    ; ASINCR”NO
+    BCF	    TXSTA, SYNC		    ; ASINCR√ìNO
     BSF	    TXSTA, BRGH		    ; LOW SPEED
     BANKSEL BAUDCTL
     BSF	    BAUDCTL, BRG16	    ; 8 BITS BAURD RATE GENERATOR
@@ -179,7 +179,7 @@ CONFIG_PWM
     BANKSEL RCSTA
     BSF	    RCSTA, SPEN		    ; HABILITAR SERIAL PORT
     BCF	    RCSTA, RX9		    ; SOLO MANEJAREMOS 8BITS DE DATOS
-    BSF	    RCSTA, CREN		    ; HABILITAMOS LA RECEPCI”N 
+    BSF	    RCSTA, CREN		    ; HABILITAMOS LA RECEPCI√ìN 
     BANKSEL TXSTA
     BSF	    TXSTA, TXEN		    ; HABILITO LA TRANSMISION
     
