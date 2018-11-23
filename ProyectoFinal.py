@@ -1,6 +1,7 @@
 # -*- coding: cp1252 -*-
 #Erick Aquino
 #Juan Pablo Gomes
+#Roberto Arriola
 from Tkinter import *
 import serial
 import time
@@ -17,11 +18,11 @@ ventana.configure(background = 'black' )
 box=Frame()
 box.pack()
 box.config(width='500',height="200")
-#Iniciar grabación de rutina
-grabar_rutina = Label(box,text='Iniciar Grabación de Rutina',fg='black',bg='yellow')
+#Iniciar grabaciÃ³n de rutina
+grabar_rutina = Label(box,text='Iniciar GrabaciÃ³n de Rutina',fg='black',bg='yellow')
 grabar_rutina.place(x=80,y=10)
-#Ejecutar Grabación
-angulo = Label(box, text='Ejecutar grabación',fg='black',bg='yellow').place(x=100,y=100)
+#Ejecutar GrabaciÃ³n
+angulo = Label(box, text='Ejecutar grabaciÃ³n',fg='black',bg='yellow').place(x=100,y=100)
 
 def grabar():
     global var
