@@ -180,13 +180,5 @@ DELAY_50MS
     DECFSZ  DELAY2		    ;DECREMENTA CONT1
     GOTO    $-2			    ; IR A LA POSICION DEL PC - 1
     RETURN
-    
-DELAY_500US
-    MOVLW   .250		    ; 1US 
-    MOVWF   DELAY1	    
-    DECFSZ  DELAY1		    ;DECREMENTA CONT1
-    GOTO    $-1			    ; IR A LA POSICION DEL PC - 1
-    RETURN
-       
-    
+   
     END
