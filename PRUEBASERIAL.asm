@@ -11,6 +11,7 @@ GPR_VAR		UDATA
 CONT1 RES 1
 CONT2 RES 1
 W_TEMP RES 1 
+STATUS_TEMP RES 1 
 ;*******************************************************************************
 ; Reset Vector
 ;*******************************************************************************
@@ -19,8 +20,22 @@ RES_VECT  CODE    0x0000            ; processor reset vector
     GOTO    START                   ; go to beginning of program
 
 ;*******************************************************************************
-;ISR       CODE    0x0004           ; interrupt vector location
-;     RETFIE
+ISR       CODE    0x0004           ; interrupt vector location
+
+ PUSH:
+  MOVWF W_TEMP
+  SWAPF STATUS_TEMP, W 
+  MOVWF STATUS_TEMP
+  
+  ISR: 
+  
+  POP:
+   SWAPF STATUS_TEMP, W 
+   MOVWF STATUS 
+   SWAPF W_TEMP, F
+   SWAPF W_TWMP, W 
+   RETFIE
+;    
 ;*******************************************************************************
 ; MAIN PROGRAM
 ;*******************************************************************************
