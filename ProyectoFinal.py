@@ -27,7 +27,7 @@ def grabar():
     global var
     var = ser.read()
 def ejecutar():
-    var2 = ser.write()
+    var2 = ser.write(var)
     print var
     
 
@@ -37,7 +37,7 @@ push.place(x=130,y=50)
 
 push2 = Button(box,text = 'Ejecutar',command = ejecutar)
 push2.place(x=130,y=135)
-
+global ser
 ser= serial.Serial(port='COM18',baudrate=9600, parity=serial.PARITY_NONE, stopbits=serial.STOPBITS_ONE,bytesize=serial.EIGHTBITS, timeout=0)
 while 1:
     ser.flushInput()
