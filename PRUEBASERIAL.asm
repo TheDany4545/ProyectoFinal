@@ -8,10 +8,10 @@
  __CONFIG _CONFIG2, _BOR4V_BOR40V & _WRT_OFF
 ;*******************************************************************************
 GPR_VAR		UDATA
-CONT1 RES 1
-CONT2 RES 1
-W_TEMP RES 1 
-STATUS_TEMP RES 1 
+CONT1       RES 1
+CONT2       RES 1
+W_TEMP      RES 1
+STATUS_TEMP RES 1
 ;*******************************************************************************
 ; Reset Vector
 ;*******************************************************************************
@@ -20,22 +20,8 @@ RES_VECT  CODE    0x0000            ; processor reset vector
     GOTO    START                   ; go to beginning of program
 
 ;*******************************************************************************
-ISR       CODE    0x0004           ; interrupt vector location
-
- PUSH:
-  MOVWF W_TEMP
-  SWAPF STATUS_TEMP, W 
-  MOVWF STATUS_TEMP
-  
-  ISR: 
-  
-  POP:
-   SWAPF STATUS_TEMP, W 
-   MOVWF STATUS 
-   SWAPF W_TEMP, F
-   SWAPF W_TWMP, W 
-   RETFIE
-;    
+;ISR       CODE    0x0004           ; interrupt vector location
+;     RETFIE
 ;*******************************************************************************
 ; MAIN PROGRAM
 ;*******************************************************************************
@@ -45,8 +31,8 @@ MAIN_PROG CODE                      ; let linker place main program
 START
 ;*******************************************************************************
     CALL    CONFIG_IO  
-    CALL    CONFIG_TX_RX		; 10417hz 
-    CALL    CONFIG_RELOJ		; RELOJ INTERNO DE 500KHz
+    ;CALL    CONFIG_TX_RX		; 10417hz 
+    CALL    CONFIG_RELOJ		; RELOJ INTERNO DE 1 MHz
     CALL    CONFIG_ADC			; canal 0, fosc/8, adc on, justificado a la izquierda, Vref interno (0-5V)
     CALL    CONFIG_PWM
     BANKSEL PORTA
@@ -103,50 +89,30 @@ CONFIG_TX_RX
     BANKSEL PORTD
     CLRF    PORTD
     RETURN  
-;_________________________________________________________________________________________________________________
+
 CONFIG_IO
-    BANKSEL ANSEL
-    CLRF ANSEL
-    BSF ANSEL, 6
-    BSF ANSEL, 7
-    CLRF ANSELH
-    BSF ANSELH, 3
-    BSF ANSELH, 5
-    
-    BANKSEL TRSA
-    CLRF TRISA 
-    MOVLW B'00110000'
-    MOVWF TRISB 
-    CLRF TRISC 
-    MOVLW B'1111'
-    MOVWF TRISE 
-    
-    BANKSEL PORTA 
-    CLRF PORTA
-    CLRF PORTB
-    CLRF PORTC
-    CLRF PORTD
-    CLRF PORTE
-    
-   BANKSEL TRISA 
-   
-    BCF		OPTION_REG, T0CS    ;INTERNAL INSTRUCTION CYCLE CLOCK (FOSC/4)
-    BCF		OPTION_REG, PSA	    ;PRESCALER DEL TIMER0
-    BSF		OPTION_REG, PS2	    ;PRESCALER 1:256
-    BSF		OPTION_REG, PS1
-    BSF		OPTION_REG, PS0  
-    
-   BANKSEL ADCON0
-   
-    BCF		ADCON0, ADCS1
-    BCF		ADCON0, ADCS0	    ;FOSC/8 RELOJ TAD------------------------------AHORITA FOSC/2
-    BSF		ADCON0, CHS3
-    BCF		ADCON0, CHS2
-    BSF		ADCON0, CHS1
-    BSF		ADCON0, CHS0
-    
- ------------------------------------------------------------------------------------------------------------------------------
-    
+    BANKSEL TRISA
+    CLRF    TRISA
+    BSF	    TRISA, RA0	; RA0 COMO ENTRADA
+    CLRF    TRISB
+    CLRF    TRISC
+    CLRF    TRISD
+    CLRF    TRISE
+    BANKSEL	ANSEL		
+    CLRF	   ANSEL		   
+    BSF	    ANSEL, 0	    
+    BSF	    ANSEL, 1	    
+    CLRF	   ANSELH
+    BSF	    ANSELH, 2	    
+    BSF	    ANSELH, 3	     
+
+    BANKSEL PORTA
+    CLRF    PORTA
+    CLRF    PORTB
+    CLRF    PORTC
+    CLRF    PORTD
+    CLRF    VALOR_ADC
+    RETURN   
     
 CONFIG_RELOJ
     BANKSEL OSCCON   
@@ -219,33 +185,3 @@ DELAY_50MS
     RETURN
    
     END
-    
-    
-    ;-----------------CONFIGURACION DE LOS CANA----------
-    
-    
-    BCF ADCON0, CHS3		; CH0
-    BCF ADCON0, CHS2
-    BCF ADCON0, CHS1
-    BCF ADCON0, CHS0	
-    
-    BCF ADCON0, CHS3		; CH1
-    BCF ADCON0, CHS2
-    BCF ADCON0, CHS1
-    BSF ADCON0, CHS0	
-    
-    BCF ADCON0, CHS3		; CH2
-    BCF ADCON0, CHS2
-    BSF ADCON0, CHS1
-    BCF ADCON0, CHS0	
-    
-    BCF ADCON0, CHS3		; CH3
-    BCF ADCON0, CHS2
-    BSF ADCON0, CHS1
-    BSF ADCON0, CHS0	
-    
-    
-    
-    
-    
-   
